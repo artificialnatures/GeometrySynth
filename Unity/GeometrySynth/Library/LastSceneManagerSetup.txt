@@ -1,0 +1,4 @@
+sceneSetups:
+- path: Assets/LiveScene.unity
+  isLoaded: 1
+  isActive: 1
