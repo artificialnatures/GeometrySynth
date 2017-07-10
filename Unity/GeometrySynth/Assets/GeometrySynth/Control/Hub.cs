@@ -66,6 +66,13 @@ namespace GeometrySynth.Control
                     {
                         Log("HUB: " + module.Function.ToString() + " module at address " + module.Address.ToString() + " sent update.");
                         return module.SyncValues(moduleData.values);
+                    } else {
+						var createdModule = ConnectModule(moduleData.address, moduleData.function);
+						if (createdModule != null)
+						{
+							Log("HUB: " + createdModule.Function.ToString() + " module at address " + createdModule.Address.ToString() + " connected.");
+							return true;
+						}
                     }
                     return false;
                 case Command.LINK:

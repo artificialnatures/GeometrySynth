@@ -2,11 +2,9 @@
 {
     public enum ModuleFunction
     {
-        NONE = 0,
-        DEFAULT = 1,
         PASSTHROUGH = 2,
         //Creation:
-        CREATE = 3,
+        SHAPE = 3,
         //Transformation:
         TRANSLATE = 10,
         ROTATE = 11,

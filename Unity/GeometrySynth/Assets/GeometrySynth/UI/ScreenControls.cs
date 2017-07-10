@@ -60,7 +60,7 @@ namespace GeometrySynth.UI
 
 		public void CreateShapeModule()
 		{
-            CreateFakeModule(ModuleFunction.CREATE);
+            CreateFakeModule(ModuleFunction.SHAPE);
 		}
 		public void CreateTranslateModule()
 		{

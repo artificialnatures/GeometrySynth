@@ -2,7 +2,7 @@
 {
     public enum ReservedAddresses
     {
-        NONE = 0,
+        EMPTY = 0,
         HUB = 1
     }
 }

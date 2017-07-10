@@ -2,7 +2,6 @@
 {
     public enum Command
     {
-        NONE = 0,
         CONNECT = 1,
         DISCONNECT = 2,
         CREATE = 3,

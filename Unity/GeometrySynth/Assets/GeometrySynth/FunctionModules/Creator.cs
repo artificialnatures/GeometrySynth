@@ -17,7 +17,7 @@ namespace GeometrySynth.FunctionModules
         public Creator(int moduleAddress)
         {
             address = moduleAddress;
-            function = ModuleFunction.CREATE;
+            function = ModuleFunction.SHAPE;
             shape = Creation.CUBE;
         }
         private Creation shape;

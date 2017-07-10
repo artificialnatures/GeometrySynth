@@ -78,8 +78,8 @@ namespace GeometrySynth.FunctionModules
         }
         public FunctionModule()
         {
-            address = (int)ReservedAddresses.NONE;
-            function = ModuleFunction.NONE;
+            address = 0;
+            function = ModuleFunction.PASSTHROUGH;
             values = new int[] { };
         }
         public FunctionModule(int moduleAddress, ModuleFunction moduleFunction)

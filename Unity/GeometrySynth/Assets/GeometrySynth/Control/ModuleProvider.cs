@@ -12,7 +12,7 @@ namespace GeometrySynth.Control
         {
             switch(moduleFunction)
             {
-                case ModuleFunction.CREATE:
+                case ModuleFunction.SHAPE:
                     return new Creator(moduleAddress);
                 case ModuleFunction.TRANSLATE:
                     return new Translator(moduleAddress);

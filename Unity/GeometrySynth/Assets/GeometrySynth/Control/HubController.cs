@@ -30,6 +30,8 @@ namespace GeometrySynth.Control
 
             hub = new Hub();
             hub.AddDataProvider(screenControls);
+            //hub.AddDataProvider(new SerialDataProvider()); //TODO: Causes crash, need to debug...
+
             hub.LogMessageGenerated += OnLogMessageReceived;
             hub.ModuleCreated += OnModuleCreated;
             /*
