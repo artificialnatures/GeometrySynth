@@ -21,7 +21,9 @@ namespace GeometrySynth.UI
         {
             if (module != null)
             {
-                module.SetValue(valueIndex, (int)floatValue);
+                inputValue = (int)floatValue;
+                module.SetValue(valueIndex, inputValue);
+                label.text = inputValue.ToString();
             }
         }
         public void SetValue(float floatValue)
@@ -47,5 +49,7 @@ namespace GeometrySynth.UI
         {
 
         }
+
+        private int inputValue;
     }
 }

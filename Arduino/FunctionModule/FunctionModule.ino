@@ -73,7 +73,7 @@ enum Command
 };
 //End of shared constants
 //Module Definition:
-int address = 10;
+const int address = 10;
 const ModuleFunction moduleFunction = SINE_WAVE;
 ModuleState moduleState = SEARCHING;
 const int inputCount = 3; //number of inputs, from 0 to 6, inputs are mapped to analog pins

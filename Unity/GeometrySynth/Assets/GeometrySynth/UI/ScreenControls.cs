@@ -25,9 +25,9 @@ namespace GeometrySynth.UI
             var modulePanelController = modulePanel.GetComponent<ModulePanelController>();
             modulePanelTransform.SetParent(scrollViewContent);
             modulePanelTransform.localPosition = new Vector3(
-                (modulePanelTransform.rect.width * 0.5f) + (modulePanelTransform.rect.width * (float)modulePanels.Count),
-                (-modulePanelTransform.rect.height * 0.5f),
-                modulePanelTransform.localPosition.z
+                (modulePanelTransform.rect.width * 0.5f) + ((modulePanelTransform.rect.width * 0.5f) * (float)modulePanels.Count),
+                -100f,
+                0f
                 );
             modulePanelController.SetModule(module);
             modulePanels.Add(modulePanelController);
