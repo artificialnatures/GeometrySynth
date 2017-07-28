@@ -5,8 +5,8 @@
 */
 #include <Wire.h>
 
-#define PAYLOAD_SIZE 7 // how many bytes to expect from each node.  should probably be max number from any node
-#define NODE_MAX 4 // maximum number of slave nodes (I2C addresses) to probe, change accordingly
+#define PAYLOAD_SIZE 16 // how many bytes to expect from each node.  should probably be max number from any node
+int NODE_MAX = 4; // maximum number of slave nodes (I2C addresses) to probe, change accordingly
 #define START_NODE 1 // The starting I2C address of slave nodes
 #define NODE_READ_DELAY 100 // Some delay between I2C node reads
 
@@ -45,19 +45,22 @@ void loop()
 {
   //retrieve and print I2C data
   for (int nodeAddress = START_NODE; nodeAddress <= NODE_MAX; nodeAddress++) { // we are starting from Node address 1
-    Wire.requestFrom(nodeAddress, 2); //the first value being sent is needsUpdate, to check if anything has changed.  The second is the payload size, which is used if update is needed
+    Wire.requestFrom(nodeAddress, PAYLOAD_SIZE); //the first value being sent is needsUpdate, to check if anything has changed.  The second is the payload size, which is used if update is needed
+    int bytesToRead = Wire.available();
+    //Serial.println(bytesToRead);
+    /*
     boolean needsUpdate = Wire.read();
     //Serial.println(needsUpdate);
-    if (needsUpdate) {
-      int Payload = Wire.read(); //^
-      Wire.requestFrom(nodeAddress, Payload);    //now we'll request all of the data
-      if (Wire.available() == Payload) { // if data size is avaliable from nodes
-        for (int i = 0; i < Payload; i++) nodePayload[i] = Wire.read();  // get nodes data
-        for (int j = 2; j < Payload; j++) Serial.println(nodePayload[j]);   // start at j=3, since we don't need to print needsUpdate & size of payload
-        Serial.println("*************************");
+    */
+    //if (needsUpdate) {
+      //int Payload = Wire.read(); //^
+      //Wire.requestFrom(nodeAddress, Payload);    //now we'll request all of the data
+     // if (Wire.available()) { // if data size is avaliable from nodes
+        for (int i = 0; i < bytesToRead; i++) nodePayload[i] = Wire.read();  // get nodes data
+        for (int i = 0; i < 7; i++) Serial.println(nodePayload[i]);   // start at j=3, since we don't need to print needsUpdate & size of payload
       }
-    }
-  }
+   // }
+  //}
   //delay(NODE_READ_DELAY); //reduce to lowest possible time(?)
 }
 
