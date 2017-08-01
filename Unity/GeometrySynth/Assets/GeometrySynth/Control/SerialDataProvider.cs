@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Threading;
+using System.IO;
 using System.IO.Ports;
 using System.Collections.Generic;
 
@@ -18,14 +19,19 @@ namespace GeometrySynth.Control
         {
             if (serialPort == null)
             {
-                serialPort = new SerialPort("COM4", 9600);
-                serialPort.Open();
-                if (serialPort.IsOpen)
+                try
                 {
-                    isRunning = true;
-                    serialThread = new Thread(SerialProcedure);
-                    serialThread.Start();
-                    return true;
+                    serialPort = new SerialPort(portName, portSpeed);
+                    serialPort.Open();
+                    if (serialPort.IsOpen)
+                    {
+                        isRunning = true;
+                        serialThread = new Thread(SerialProcedure);
+                        serialThread.Start();
+                        return true;
+                    }
+                } catch (IOException exception) {
+                    Debug.Log("SerialDataProvider: Could not open serial port. Exception: " + exception.Message);
                 }
             }
             return false;
@@ -34,6 +40,7 @@ namespace GeometrySynth.Control
         {
             isRunning = false;
             serialThread.Join();
+            serialPort = null;
             return false;
         }
         public bool RequestUpdate(int address)
@@ -66,11 +73,31 @@ namespace GeometrySynth.Control
 		public SerialDataProvider()
 		{
             isRunning = false;
+            availablePorts = FindAvailablePorts();
+            portName = "COM4";
+            portSpeed = 115200;
             receivedQueue = new Queue<string>();
             sendQueue = new Queue<string>();
 		}
 
-        private static void SerialProcedure()
+        public SerialDataProvider(string port_name, int port_speed) : this()
+        {
+            portName = port_name;
+            portSpeed = port_speed;
+        }
+
+        private string[] FindAvailablePorts()
+        {
+            string[] portNames = SerialPort.GetPortNames();
+            Debug.Log("SerialDataProvider - Available Serial Ports:");
+            foreach (var pn in portNames)
+            {
+                Debug.Log("   - " + pn);
+            }
+            return portNames;
+        }
+
+        private void SerialProcedure()
         {
             while (isRunning)
             {
@@ -85,10 +112,13 @@ namespace GeometrySynth.Control
             }
         }
 
-        private static Thread serialThread;
-        private static SerialPort serialPort;
-        private static bool isRunning;
-        private static Queue<string> receivedQueue;
-        private static Queue<string> sendQueue;
+        private Thread serialThread;
+        private SerialPort serialPort;
+        private string[] availablePorts;
+        private string portName;
+        private int portSpeed;
+        private bool isRunning;
+        private Queue<string> receivedQueue;
+        private Queue<string> sendQueue;
     }
 }

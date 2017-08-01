@@ -10,6 +10,8 @@ namespace GeometrySynth.Control
     {
         public ScreenControls screenControls;
         public GameObject cubePrefab;
+        public string serialPortName;
+        public int serialBaudRate;
 
         public bool OnModuleCreated(Connectable module)
         {
@@ -30,8 +32,29 @@ namespace GeometrySynth.Control
 
             hub = new Hub();
             hub.AddDataProvider(screenControls);
-            //hub.AddDataProvider(new SerialDataProvider()); //TODO: Causes crash, need to debug...
-
+            /*
+            SerialDataProvider sdp = null;
+            if (serialPortName != "" && serialBaudRate > 0)
+            {
+                sdp = new SerialDataProvider(serialPortName, serialBaudRate);
+            } else {
+                sdp = new SerialDataProvider();
+            }
+            if (sdp != null)
+            {
+                hub.AddDataProvider(sdp);
+            }
+            */
+            string[] ports = System.IO.Ports.SerialPort.GetPortNames();
+            if (ports.Length > 0)
+            {
+                foreach (var pn in ports)
+                {
+                    Debug.Log("HubController: Found available serial port: " + pn);
+                }
+            } else {
+                Debug.Log("HubController: Found no available serial ports.");
+            }
             hub.LogMessageGenerated += OnLogMessageReceived;
             hub.ModuleCreated += OnModuleCreated;
             /*
