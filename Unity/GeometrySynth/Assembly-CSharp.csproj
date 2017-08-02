@@ -82,6 +82,8 @@
  <Reference Include="UnityEngine.Networking">
  <HintPath>/Applications/Unity5/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
+ <Compile Include="Assets\GeometrySynth\Control\I2CDataProvider.cs" />
+ <Compile Include="Assets\GeometrySynth\Control\SPIDataProvider.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

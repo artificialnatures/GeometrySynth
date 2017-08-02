@@ -32,32 +32,11 @@ namespace GeometrySynth.Control
 
             hub = new Hub();
             hub.AddDataProvider(screenControls);
-            /*
-            SerialDataProvider sdp = null;
-            if (serialPortName != "" && serialBaudRate > 0)
-            {
-                sdp = new SerialDataProvider(serialPortName, serialBaudRate);
-            } else {
-                sdp = new SerialDataProvider();
-            }
-            if (sdp != null)
-            {
-                hub.AddDataProvider(sdp);
-            }
-            */
-            string[] ports = System.IO.Ports.SerialPort.GetPortNames();
-            if (ports.Length > 0)
-            {
-                foreach (var pn in ports)
-                {
-                    Debug.Log("HubController: Found available serial port: " + pn);
-                }
-            } else {
-                Debug.Log("HubController: Found no available serial ports.");
-            }
+
             hub.LogMessageGenerated += OnLogMessageReceived;
             hub.ModuleCreated += OnModuleCreated;
             /*
+             //Test data, TODO: Create test data provider...
             var createModule = hub.ConnectModule(4, ModuleFunction.CREATE);
             var waveModule = hub.ConnectModule(5, ModuleFunction.SINE_WAVE);
 			var translateModule = hub.ConnectModule(7, ModuleFunction.TRANSLATE);
