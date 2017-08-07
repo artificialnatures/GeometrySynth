@@ -53,7 +53,7 @@ namespace GeometrySynth.UI
         {
             return false;
         }
-		public bool Send(ModuleData moduleData)
+		public bool Send(string data)
         {
             return false;
         }

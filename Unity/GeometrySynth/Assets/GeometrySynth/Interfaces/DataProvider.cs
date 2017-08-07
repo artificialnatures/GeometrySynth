@@ -7,6 +7,6 @@
         bool Disconnect();
         bool RequestUpdate(int address);
         bool Receive();
-        bool Send(ModuleData moduleData);
+        bool Send(string data);
     }
 }

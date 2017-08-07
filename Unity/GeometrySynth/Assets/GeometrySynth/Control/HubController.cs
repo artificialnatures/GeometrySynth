@@ -26,37 +26,45 @@ namespace GeometrySynth.Control
 
         void Start()
         {
-			var sceneObject = new GameObject("SceneNode");
-			testNode = sceneObject.AddComponent<SceneNode>();
-			testNode.Create(cubePrefab);
+            var sceneObject = new GameObject("SceneNode");
+            testNode = sceneObject.AddComponent<SceneNode>();
+            testNode.Create(cubePrefab);
 
             hub = new Hub();
             hub.AddDataProvider(screenControls);
+            serialDataProvider = new SerialDataProvider("Arduino", 19200);
+            hub.AddDataProvider(serialDataProvider);
 
             hub.LogMessageGenerated += OnLogMessageReceived;
             hub.ModuleCreated += OnModuleCreated;
-            /*
-             //Test data, TODO: Create test data provider...
-            var createModule = hub.ConnectModule(4, ModuleFunction.CREATE);
-            var waveModule = hub.ConnectModule(5, ModuleFunction.SINE_WAVE);
-			var translateModule = hub.ConnectModule(7, ModuleFunction.TRANSLATE);
-            var rotateModule = hub.ConnectModule(6, ModuleFunction.ROTATE);
-            var scaleModule =  hub.ConnectModule(9, ModuleFunction.SCALE);
-            var colorModule = hub.ConnectModule(8, ModuleFunction.COLOR);
-            screenControls.AddModulePanel(waveModule);
-            screenControls.AddModulePanel(translateModule);
-            screenControls.AddModulePanel(rotateModule);
-            screenControls.AddModulePanel(scaleModule);
-            screenControls.AddModulePanel(colorModule);
-            */
+
+            serialTest = new Tests.SerialTest(serialDataProvider);
+            hub.ModuleCreated += serialTest.OnModuleCreated;
         }
         void Update()
         {
-            hub.Sync();
-            hub.Step(Time.realtimeSinceStartup);
-            hub.Operate(testNode);
+            HandleKeyboardInput();
+            if (serialTest != null) serialTest.HandleKeyboardInput();
+            if (hub != null)
+            {
+                hub.Sync();
+                hub.Step(Time.realtimeSinceStartup);
+                hub.Operate(testNode);
+            }
         }
+        void OnApplicationQuit()
+        {
+            hub.Disconnect();
+        }
+
+        private void HandleKeyboardInput()
+        {
+			
+        }
+
         private Hub hub;
         private SceneNode testNode;
+        private SerialDataProvider serialDataProvider;
+        private Tests.SerialTest serialTest;
     }
 }

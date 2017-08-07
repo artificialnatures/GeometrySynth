@@ -1,10 +1,11 @@
 ﻿<Properties StartupConfiguration="{515A8009-0D4E-E524-41FF-F2E40126492A}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/GeometrySynth/Control/SPIDataProvider.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/GeometrySynth/Control/SerialDataProvider.cs">
     <Files>
-      <File FileName="Assets/GeometrySynth/Control/HubController.cs" Line="35" Column="13" />
-      <File FileName="Assets/GeometrySynth/Control/Hub.cs" Line="1" Column="1" />
-      <File FileName="Assets/GeometrySynth/Control/I2CDataProvider.cs" Line="79" Column="1" />
-      <File FileName="Assets/GeometrySynth/Control/SPIDataProvider.cs" Line="16" Column="63" />
+      <File FileName="Assets/GeometrySynth/Control/HubController.cs" Line="49" Column="50" />
+      <File FileName="Assets/GeometrySynth/Control/Hub.cs" Line="53" Column="45" />
+      <File FileName="Assets/GeometrySynth/Control/SerialDataProvider.cs" Line="251" Column="83" />
+      <File FileName="Assets/GeometrySynth/Interfaces/ModuleData.cs" Line="14" Column="2" />
+      <File FileName="Assets/GeometrySynth/Tests/SerialTest.cs" Line="80" Column="37" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

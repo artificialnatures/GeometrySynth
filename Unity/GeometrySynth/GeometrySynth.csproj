@@ -120,6 +120,7 @@
     <Compile Include="Assets\GeometrySynth\Control\Hub.cs" />
     <Compile Include="Assets\GeometrySynth\Control\HubController.cs" />
     <Compile Include="Assets\GeometrySynth\Control\I2CDataProvider.cs" />
+    <Compile Include="Assets\GeometrySynth\Control\MacSerialDataProvider.cs" />
     <Compile Include="Assets\GeometrySynth\Control\ModuleLink.cs" />
     <Compile Include="Assets\GeometrySynth\Control\ModuleProvider.cs" />
     <Compile Include="Assets\GeometrySynth\Control\SceneController.cs" />
@@ -127,6 +128,7 @@
     <Compile Include="Assets\GeometrySynth\Control\SerialDataProvider.cs" />
     <Compile Include="Assets\GeometrySynth\Control\SPIDataProvider.cs" />
     <Compile Include="Assets\GeometrySynth\Control\SynthScene.cs" />
+    <Compile Include="Assets\GeometrySynth\Control\WindowsSerialDataProvider.cs" />
     <Compile Include="Assets\GeometrySynth\FunctionModules\Colorer.cs" />
     <Compile Include="Assets\GeometrySynth\FunctionModules\Creator.cs" />
     <Compile Include="Assets\GeometrySynth\FunctionModules\FunctionModule.cs" />
@@ -139,7 +141,9 @@
     <Compile Include="Assets\GeometrySynth\Interfaces\DataProvider.cs" />
     <Compile Include="Assets\GeometrySynth\Interfaces\Events.cs" />
     <Compile Include="Assets\GeometrySynth\Interfaces\ModuleData.cs" />
+    <Compile Include="Assets\GeometrySynth\Interfaces\ModuleRequest.cs" />
     <Compile Include="Assets\GeometrySynth\Interfaces\Transformable.cs" />
+    <Compile Include="Assets\GeometrySynth\Tests\SerialTest.cs" />
     <Compile Include="Assets\GeometrySynth\UI\ModulePanelController.cs" />
     <Compile Include="Assets\GeometrySynth\UI\ScreenControls.cs" />
     <Compile Include="Assets\GeometrySynth\UI\ValueControl.cs" />

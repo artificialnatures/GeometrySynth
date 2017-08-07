@@ -50,6 +50,7 @@ namespace GeometrySynth.Control
         }
         public bool OnModuleCommandReceived(ModuleData moduleData)
         {
+            Log("Module command received.");
             var module = FindModule(moduleData.address);
             switch(moduleData.command)
             {
@@ -106,6 +107,14 @@ namespace GeometrySynth.Control
             foreach (var module in connectedModules)
             {
                 module.Operate(node);
+            }
+            return true;
+        }
+        public bool Disconnect()
+        {
+            foreach (var dataProvider in dataProviders)
+            {
+                dataProvider.Disconnect();
             }
             return true;
         }

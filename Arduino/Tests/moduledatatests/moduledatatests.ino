@@ -1,23 +1,24 @@
-/* Constants, local
- * These values are not shared with the Unity project
+/* Send test data via USB
+ * Data must be JSON formatted strings, corresponding to 
+ * the layout of the ModuleData struct, which looks like this:
+ * public struct ModuleData
+ * {
+ *     public int address;
+ *     public ModuleFunction function;
+ *     public Command command;
+ *     public int[] values;
+ *     public int connectedModuleAddress;
+ * }
+ * Requests should be formated corresponding to the
+ * layout of the ModuleRequest struct, which looks like this:
+ * public struct ModuleRequest
+ * {
+ *   public Command command;
+ *   public int[] values;
+ * }
  */
-enum ModuleState
-{
-  SEARCHING,
-  CONNECTED,
-  UPDATING,
-  PAUSED,
-  EXITING
-};
-const int TOLERANCE = 5;
-/* Constants, shared
- * Ensure these values match those in the Unity project (GeometrySynth.Constants)
- */
-enum ReservedAddresses
-{
-    EMPTY = 0,
-    HUB = 1
-};
+#import <ArduinoJson.h>
+
 enum ModuleFunction
 {
     PASSTHROUGH = 2,
@@ -76,52 +77,46 @@ enum Command
     ON = 14,
     OFF = 15
 };
-//End of shared constants
+
 //Module Definition:
-const int address = 10;
-const ModuleFunction moduleFunction = SINE_WAVE;
+int address = 10;
+ModuleFunction moduleFunction = SINE_WAVE;
 Command command = UPDATE;
-ModuleState moduleState = SEARCHING;
-const int inputCount = 3; //number of inputs, from 0 to 6, inputs are mapped to analog pins
-int inputPins[inputCount];
-int inputValues[inputCount];
-boolean requiresUpdate = false;
+int inputCount = 3;
+int inputValues[10];
+
+int send_interval = 20;
+String message = "{\"message\":\"hello\"}";
+char EOL = "\n";
+StaticJsonBuffer<256> jsonBuffer;
 
 void setup() 
 {
-  Serial.begin(9600);
-  for (int i = 0; i < inputCount; i++)
+  Serial.begin(19200);
+  for (int i = 0; i < sizeof(inputValues); i++)
   {
-    inputPins[i] = i;
     inputValues[i] = 0;
   }
 }
 
 void loop() 
 {
-  for (int i = 0; i < inputCount; i++)
-  {
-    int inputValue = analogRead(inputPins[i]);
-    if (!EqualWithinTolerance(inputValue, inputValues[i]))
-    {
-      inputValues[i] = inputValue;
-      requiresUpdate = true;
-    }
-  }
-  if (requiresUpdate)
-  {
-    Serial.println(GetUpdateMessage());
-    requiresUpdate = false;
-  }
+  
+  delay(send_interval);
 }
 
-boolean EqualWithinTolerance(int newValue, int recordedValue)
+void serialEvent()
 {
-  if (newValue >= recordedValue - TOLERANCE && newValue <= recordedValue + TOLERANCE)
+  String request = Serial.readStringUntil(EOL);
+  JsonObject& json = jsonBuffer.parseObject(request);
+  command = json["command"].as<Command>();
+  switch (command)
   {
-    return true;
+    case CONNECT:
+      break;
+    case UPDATE:
+      break;
   }
-  return false;
 }
 
 String GetUpdateMessage()
@@ -149,4 +144,3 @@ String GetUpdateMessage()
   message += "}";
   return message;
 }
-

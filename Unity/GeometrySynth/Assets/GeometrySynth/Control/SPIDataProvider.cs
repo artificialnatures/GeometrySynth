@@ -46,11 +46,10 @@ namespace GeometrySynth.Control
 			}
 			return false;
 		}
-		public bool Send(ModuleData moduleData)
+		public bool Send(string data)
 		{
 			//TODO: communicate with specific module...
-			var message = JsonUtility.ToJson(moduleData);
-			sendQueue.Enqueue(message);
+			sendQueue.Enqueue(data);
 			return false;
 		}
 
