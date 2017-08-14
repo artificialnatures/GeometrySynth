@@ -1,16 +1,21 @@
 ﻿<Properties StartupConfiguration="{515A8009-0D4E-E524-41FF-F2E40126492A}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/GeometrySynth/Control/SerialDataProvider.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/GeometrySynth/UI/ValueControl.cs">
     <Files>
-      <File FileName="Assets/GeometrySynth/Control/HubController.cs" Line="49" Column="50" />
-      <File FileName="Assets/GeometrySynth/Control/Hub.cs" Line="53" Column="45" />
-      <File FileName="Assets/GeometrySynth/Control/SerialDataProvider.cs" Line="251" Column="83" />
-      <File FileName="Assets/GeometrySynth/Interfaces/ModuleData.cs" Line="14" Column="2" />
-      <File FileName="Assets/GeometrySynth/Tests/SerialTest.cs" Line="80" Column="37" />
+      <File FileName="Assets/GeometrySynth/Control/HubController.cs" Line="18" Column="1" />
+      <File FileName="Assets/GeometrySynth/Control/Hub.cs" Line="146" Column="1" />
+      <File FileName="Assets/GeometrySynth/UI/ScreenControls.cs" Line="27" Column="62" />
+      <File FileName="Assets/GeometrySynth/UI/ModulePanelController.cs" Line="28" Column="1" />
+      <File FileName="Assets/GeometrySynth/Tests/SerialTest.cs" Line="51" Column="45" />
+      <File FileName="Assets/GeometrySynth/Control/SerialDataProvider.cs" Line="137" Column="97" />
+      <File FileName="Assets/GeometrySynth/FunctionModules/FunctionModule.cs" Line="12" Column="58" />
+      <File FileName="Assets/GeometrySynth/UI/ValueControl.cs" Line="10" Column="42" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/aaron/GitHub/GeometrySynth/Unity/GeometrySynth/Assets/GeometrySynth/UI/ModulePanelController.cs" relfile="Assets/GeometrySynth/UI/ModulePanelController.cs" line="28" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp-Editor PreferredExecutionTarget="MonoDevelop.Default" />

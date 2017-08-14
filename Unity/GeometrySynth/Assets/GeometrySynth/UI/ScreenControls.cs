@@ -25,10 +25,10 @@ namespace GeometrySynth.UI
             var modulePanelController = modulePanel.GetComponent<ModulePanelController>();
             modulePanelTransform.SetParent(scrollViewContent);
             modulePanelTransform.localPosition = new Vector3(
-                (modulePanelTransform.rect.width * 0.5f) + ((modulePanelTransform.rect.width * 0.5f) * (float)modulePanels.Count),
-                -100f,
-                0f
-                );
+                (modulePanelTransform.rect.width * 0.5f) + (modulePanelTransform.rect.width * (float)modulePanels.Count),
+                -(modulePanelTransform.rect.height * 0.5f),
+                0f);
+            modulePanelTransform.localScale = Vector3.one;
             modulePanelController.SetModule(module);
             modulePanels.Add(modulePanelController);
         }
@@ -80,7 +80,7 @@ namespace GeometrySynth.UI
 		}
 		public void CreateWaveModule()
 		{
-            CreateFakeModule(ModuleFunction.SINE_WAVE);
+            CreateFakeModule(ModuleFunction.WAVE);
 		}
 		public void CreatePulseModule()
 		{

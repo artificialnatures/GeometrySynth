@@ -3,12 +3,22 @@ using System.Collections.Generic;
 
 using GeometrySynth.Constants;
 using GeometrySynth.Interfaces;
+using GeometrySynth.FunctionModules;
 
 namespace GeometrySynth.Control
 {
     public class SceneNode : MonoBehaviour, Transformable
     {
-		public Creation Shape
+        public Connectable Module
+        {
+            get { return module; }
+        }
+        public bool IsActive
+        {
+            get { return isActive; }
+            set { isActive = value; }
+        }
+        public Shape Shape
 		{
 			get { return shape; }
 			set { shape = value; }
@@ -21,16 +31,6 @@ namespace GeometrySynth.Control
         public bool IsArrayed
         {
             get { return isArrayed; }
-        }
-        public bool Create(GameObject prefab)
-        {
-            //TODO: detect change, clear old objects, create new, handle array...
-            var childObject = Instantiate(prefab) as GameObject;
-            childObject.transform.SetParent(transform);
-            material = new Material(childObject.GetComponent<Renderer>().material);
-            childObject.GetComponent<Renderer>().material = material;
-            childObjects.Add(childObject);
-            return true;
         }
         public bool Array(int countX, int countY, int countZ, float spacingX, float spacingY, float spacingZ)
         {
@@ -55,35 +55,29 @@ namespace GeometrySynth.Control
 		public bool Translate(float x, float y, float z)
 		{
             var translation = new Vector3(x * scalar, y * scalar, z * scalar);
-            //transform.localPosition = translation;
-            //TODO: handle array...
-            foreach (var child in childObjects)
+            foreach (Transform child in transform)
             {
-                child.transform.localPosition = translation;
+                child.localPosition = translation;
             }
-            return true;
+			return true;
 		}
 		public bool Rotate(float x, float y, float z)
 		{
             //TODO: handle array, handle mapping, handle offset/scalar
             var rotation = new Vector3(x * scalar, y * scalar, z * scalar);
-            transform.localEulerAngles = rotation;
-            /*
-            foreach (var child in childObjects)
+            foreach (Transform child in transform)
             {
-                child.transform.localEulerAngles = rotation;
+                child.localEulerAngles = rotation;
             }
-            */
             return true;
 		}
 		public bool Scale(float x, float y, float z)
 		{
             //TODO: handle array, handle mapping, handle offset/scalar
             var scale = new Vector3(x * Mathf.Abs(scalar), y * Mathf.Abs(scalar), z * Mathf.Abs(scalar));
-            //transform.localScale = scale;
-            foreach (var child in childObjects)
+            foreach (Transform child in transform)
             {
-                child.transform.localScale = scale;
+                child.localScale = scale;
             }
 			return true;
 		}
@@ -91,24 +85,33 @@ namespace GeometrySynth.Control
         {
             var colorScalar = (scalar + 1.0f) * 0.5f;
             var color = new Color(r * colorScalar, g * colorScalar, b * colorScalar);
-            material.color = color;
+            foreach (Transform child in transform)
+            {
+                child.GetComponent<Renderer>().material.color = color;
+            }
             return true;
         }
-		public SceneNode()
+        public void Initialize(Creator shapeModule, GameObject shapePrefab)
 		{
-            shape = Creation.CUBE;
+            module = shapeModule;
+            prefab = shapePrefab;
+            isActive = true;
+            shape = Shape.CUBE;
             scalar = 1.0f;
             isArrayed = false;
             arraySize = new int[] { 1, 1, 1 };
             arraySpacing = new float[] { 1.0f, 1.0f, 1.0f };
-            childObjects = new List<GameObject>();
+            var initialShape = Instantiate(prefab, Vector3.zero, Quaternion.identity) as GameObject;
+            initialShape.transform.SetParent(transform);
 		}
-		private Creation shape;
+        private Creator module;
+        private GameObject prefab;
+        private bool isActive;
+		private Shape shape;
 		private float scalar;
         private bool isArrayed;
         private int[] arraySize;
         private float[] arraySpacing;
-        private List<GameObject> childObjects;
         private Material material;
     }
 }

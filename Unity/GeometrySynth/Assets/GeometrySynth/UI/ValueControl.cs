@@ -19,18 +19,22 @@ namespace GeometrySynth.UI
         }
         public void OnValueChanged(float floatValue)
         {
+            /* TODO: enable once manual controls are figured out...
             if (module != null)
             {
                 inputValue = (int)floatValue;
                 module.SetValue(valueIndex, inputValue);
                 label.text = inputValue.ToString();
             }
+            */
         }
-        public void SetValue(float floatValue)
+        public void SetValue(int intValue)
         {
             if (slider != null)
             {
+                float floatValue = (float)intValue;
                 slider.value = floatValue;
+                label.text = floatValue.ToString();
             }
         }
         public void Trigger()

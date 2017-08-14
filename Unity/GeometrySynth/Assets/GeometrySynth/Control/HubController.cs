@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿﻿using UnityEngine;
 
 using GeometrySynth.Constants;
 using GeometrySynth.Interfaces;
@@ -8,8 +8,8 @@ namespace GeometrySynth.Control
 {
     public class HubController : MonoBehaviour
     {
+        public SceneController sceneController;
         public ScreenControls screenControls;
-        public GameObject cubePrefab;
         public string serialPortName;
         public int serialBaudRate;
 
@@ -26,20 +26,18 @@ namespace GeometrySynth.Control
 
         void Start()
         {
-            var sceneObject = new GameObject("SceneNode");
-            testNode = sceneObject.AddComponent<SceneNode>();
-            testNode.Create(cubePrefab);
-
-            hub = new Hub();
-            hub.AddDataProvider(screenControls);
-            serialDataProvider = new SerialDataProvider("Arduino", 19200);
-            hub.AddDataProvider(serialDataProvider);
-
-            hub.LogMessageGenerated += OnLogMessageReceived;
-            hub.ModuleCreated += OnModuleCreated;
-
-            serialTest = new Tests.SerialTest(serialDataProvider);
-            hub.ModuleCreated += serialTest.OnModuleCreated;
+			if (sceneController != null)
+			{
+                hub = new Hub(sceneController);
+	            hub.AddDataProvider(screenControls);
+	            serialDataProvider = new SerialDataProvider("Arduino", 9600);
+	            hub.AddDataProvider(serialDataProvider);
+	            hub.LogMessageGenerated += OnLogMessageReceived;
+	            hub.ModuleCreated += OnModuleCreated;
+                hub.ShapeModuleCreated += sceneController.OnShapeModuleCreated;
+				serialTest = new Tests.SerialTest(serialDataProvider);
+				hub.ModuleCreated += serialTest.OnModuleCreated;
+            }
         }
         void Update()
         {
@@ -49,7 +47,7 @@ namespace GeometrySynth.Control
             {
                 hub.Sync();
                 hub.Step(Time.realtimeSinceStartup);
-                hub.Operate(testNode);
+                hub.Operate();
             }
         }
         void OnApplicationQuit()
@@ -63,7 +61,6 @@ namespace GeometrySynth.Control
         }
 
         private Hub hub;
-        private SceneNode testNode;
         private SerialDataProvider serialDataProvider;
         private Tests.SerialTest serialTest;
     }

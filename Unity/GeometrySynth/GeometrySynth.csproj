@@ -111,7 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\GeometrySynth\Constants\Command.cs" />
-    <Compile Include="Assets\GeometrySynth\Constants\Creations.cs" />
+    <Compile Include="Assets\GeometrySynth\Constants\Shapes.cs" />
     <Compile Include="Assets\GeometrySynth\Constants\Directionality.cs" />
     <Compile Include="Assets\GeometrySynth\Constants\ModuleFunctions.cs" />
     <Compile Include="Assets\GeometrySynth\Constants\ModuleType.cs" />
@@ -126,6 +126,7 @@
     <Compile Include="Assets\GeometrySynth\Control\SceneController.cs" />
     <Compile Include="Assets\GeometrySynth\Control\SceneNode.cs" />
     <Compile Include="Assets\GeometrySynth\Control\SerialDataProvider.cs" />
+    <Compile Include="Assets\GeometrySynth\Control\ShapeData.cs" />
     <Compile Include="Assets\GeometrySynth\Control\SPIDataProvider.cs" />
     <Compile Include="Assets\GeometrySynth\Control\SynthScene.cs" />
     <Compile Include="Assets\GeometrySynth\Control\WindowsSerialDataProvider.cs" />

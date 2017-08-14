@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿﻿using UnityEngine;
 
 using System.Collections.Generic;
 
@@ -24,10 +24,6 @@ namespace GeometrySynth.Tests
             {
                 SendModuleData(translateModule);
             }
-            if (Input.GetKeyUp(KeyCode.Alpha4))
-            {
-                SendModuleData(colorModule);
-            }
         }
         public bool OnModuleCreated(Connectable connectable)
         {
@@ -51,58 +47,51 @@ namespace GeometrySynth.Tests
         }
         public void SendModuleData(ModuleData data)
         {
-            serialDataProvider.SendModuleData(data);
-			if (data.command == Command.CONNECT)
-			{
-				data.command = Command.LINK;
-			}
-			else if (data.command == Command.LINK)
-			{
-				data.command = Command.UPDATE;
-			}
+			serialDataProvider.SendModuleData(data);
+			//var message = JsonUtility.ToJson(data);
+			//serialDataProvider.EnqueueMessage(message);
         }
         private void CreateModuleData()
         {
             shapeModule = new ModuleData()
             {
                 address = 10,
-                command = Command.CONNECT,
+                command = Command.UPDATE,
                 function = ModuleFunction.SHAPE,
-                values = new int[] { 1 },
+                values = new int[] { 1, 200, 0, 0 },
                 connectedModuleAddress = 12
             };
             modules.Add(shapeModule);
 			waveModule = new ModuleData()
 			{
 				address = 11,
-                command = Command.CONNECT,
+                command = Command.UPDATE,
                 function = ModuleFunction.SINE_WAVE,
-				values = new int[] { 500, 500 },
-				connectedModuleAddress = 1
+				values = new int[] { 127, 127, 0, 0 },
+				connectedModuleAddress = 0
 			};
             modules.Add(waveModule);
 			translateModule = new ModuleData()
 			{
 				address = 12,
-                command = Command.CONNECT,
+                command = Command.UPDATE,
                 function = ModuleFunction.TRANSLATE,
-				values = new int[] { 1023, 0, 0 },
+				values = new int[] { 255, 0, 0, 0 },
 				connectedModuleAddress = 11
 			};
             modules.Add(translateModule);
 			colorModule = new ModuleData()
 			{
 				address = 13,
-                command = Command.CONNECT,
+                command = Command.UPDATE,
                 function = ModuleFunction.COLOR,
-				values = new int[] { 1023, 1023, 1023 },
+				values = new int[] { 255, 255, 255, 0 },
 				connectedModuleAddress = 0
 			};
             modules.Add(colorModule);
         }
         private SerialDataProvider serialDataProvider;
         private List<ModuleData> modules;
-        private ModuleData moduleToSend;
         private ModuleData shapeModule;
         private ModuleData waveModule;
         private ModuleData translateModule;

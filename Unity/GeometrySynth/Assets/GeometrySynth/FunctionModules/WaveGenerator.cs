@@ -10,16 +10,11 @@ namespace GeometrySynth.FunctionModules
     {
 		public override bool SyncValues(int[] moduleValues)
 		{
-            if (moduleValues.Length == 3)
-			{
-                values = moduleValues;
-                amplitude = MapValue(values[0]);
-                frequency = MapValue(values[1]);
-                offset = MapValue(values[2]);
-				return true;
-			} else {
-				return false;
-			}
+            base.SyncValues(moduleValues);
+            amplitude = MapValue(values[0]);
+            frequency = MapValue(values[1]);
+            offset = MapValue(values[2]);
+			return true;
 		}
 		public override bool Step(float time)
 		{
@@ -31,11 +26,8 @@ namespace GeometrySynth.FunctionModules
             transformable.Scalar = scalar;
 			return true;
 		}
-        public WaveGenerator(int moduleAddress)
+        public WaveGenerator(int moduleAddress) : base(moduleAddress, ModuleFunction.WAVE)
 		{
-			address = moduleAddress;
-            function = ModuleFunction.SINE_WAVE;
-            values = new int[] { 255, 255, 0 };
             amplitude = 1.0f;
             frequency = 1.0f;
             offset = 0.0f;

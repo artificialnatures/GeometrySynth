@@ -15,78 +15,56 @@ namespace GeometrySynth.UI
         public Text downstreamField;
         public ValueControl[] valueControls;
 
-        public int Address
-        {
-            get { return moduleData.address; }
-        }
-
         public bool SetModule(Connectable connectable)
         {
             titleField.text = connectable.Function.ToString();
             addressField.text = connectable.Address.ToString();
-            moduleData = new ModuleData()
-            {
-                address = connectable.Address,
-                function = connectable.Function,
-                command = Command.UPDATE,
-                values = connectable.InputValues,
-                connectedModuleAddress = 0
-            };
-            for (int i = 0; i < valueControls.Length; i++)
-            {
-                if (i > moduleData.values.Length - 1) 
-                {
-                    valueControls[i].gameObject.SetActive(false);
-                } else {
-                    valueControls[i].gameObject.SetActive(true);
-                }
-            }
             InputValuesChanged += connectable.SyncValues;
             connectable.ModuleDataChanged += OnModuleDataChanged;
             return true;
         }
         public void SetValue(int index, int value)
         {
-            if (moduleData.values.Length > index)
+            if (index < values.Length)
             {
-                moduleData.values[index] = value;
+                values[index] = value;
                 if (InputValuesChanged != null)
                 {
-                    InputValuesChanged(moduleData.values);
+                    InputValuesChanged(values);
                 }
             }
         }
-        public void TriggerEvent(int index)
+        public bool OnModuleDataChanged(Connectable module)
         {
-            
-        }
-        public bool OnModuleDataChanged(ModuleData updatedData)
-        {
-            if (updatedData.values.Length == moduleData.values.Length)
+            titleField.text = module.Function.ToString();
+            addressField.text = module.Address.ToString();
+            for (int i = 0; i < valueControls.Length; i++)
             {
-                moduleData.values = updatedData.values;
-                for (int i = 0; i < moduleData.values.Length; i++)
+                if (i < module.InputValues.Length)
                 {
-                    valueControls[0].SetValue(moduleData.values[i]);
+                    valueControls[i].SetValue(module.InputValues[i]);
                 }
-                return true;
-            } else {
-                return false;
             }
+            var upstreamText = "";
+            foreach (var connection in module.UpstreamConnections)
+            {
+                upstreamText += connection.Address.ToString() + " ";
+            }
+            upstreamField.text = upstreamText;
+            return true;
         }
 
-        public event ModuleDataChangedHandler ModuleDataChanged;
         public event IntArrayValueChangedHandler InputValuesChanged;
 
         void Start()
         {
-            
+            values = new int[] { 0, 0, 0, 0 };
         }
         void Update()
         {
 
         }
 
-        private ModuleData moduleData;
+        private int[] values;
     }
 }

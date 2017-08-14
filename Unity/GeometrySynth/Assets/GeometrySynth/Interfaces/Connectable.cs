@@ -6,15 +6,18 @@ namespace GeometrySynth.Interfaces
 {
     public interface Connectable
     {
-        event ModuleDataChangedHandler ModuleDataChanged;
+        event ConnectableChangedHandler ModuleDataChanged;
         int Address { get; }
         ModuleFunction Function { get; }
-        int InputCount { get; }
-        int[] InputValues { get; }
         List<Connectable> UpstreamConnections { get; }
         List<Connectable> DownstreamConnections { get; }
-        bool ConnectToUpstreamModule(Connectable connectable);
-        bool ConnectToDownstreamModule(Connectable connectable);
+        bool LinkModule(Connectable upstreamModule);
+        bool UnlinkModule(Connectable upstreamModule);
+        bool UnlinkAll();
+        bool AddDownstreamConnection(Connectable downstreamModule);
+        bool RemoveDownstreamConnection(Connectable downstreamModule);
+        int InputCount { get; }
+        int[] InputValues { get; }
         bool SyncValues(int[] values);
         bool Step(float time);
         bool Operate(Transformable transformable);

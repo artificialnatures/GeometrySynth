@@ -1,6 +1,6 @@
 ﻿namespace GeometrySynth.Constants
 {
-    public enum Creation
+    public enum Shape
     {
         NONE = 0,
         DEFAULT = 1,

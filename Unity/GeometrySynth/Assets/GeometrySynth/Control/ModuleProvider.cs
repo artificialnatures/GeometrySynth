@@ -24,6 +24,8 @@ namespace GeometrySynth.Control
                     return new Colorer(moduleAddress);
                 case ModuleFunction.SINE_WAVE:
                     return new WaveGenerator(moduleAddress);
+				case ModuleFunction.WAVE:
+					return new WaveGenerator(moduleAddress);
             }
             return null;
         }

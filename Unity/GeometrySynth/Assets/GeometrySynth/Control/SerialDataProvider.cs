@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿﻿using UnityEngine;
 using System;
 using System.Threading;
 using System.Collections.Concurrent;
@@ -60,7 +60,7 @@ namespace GeometrySynth.Control
 
 		public bool Connect()
 		{
-            portSpeed = 19200;
+            portSpeed = 9600;
             bool refreshed = serial_refresh_device_list();
             if (refreshed)
             {
@@ -121,16 +121,21 @@ namespace GeometrySynth.Control
 
 		public bool Disconnect()
 		{
-			serial_close();
-			isRunning = false;
-			if (sendThread != null)
-			{
-				sendThread.Join();
-			}
-			if (receiveThread != null)
-			{
-				receiveThread.Join();
-			}
+            try
+            {
+                serial_close();
+                isRunning = false;
+                if (sendThread != null && sendThread.IsAlive)
+                {
+                    sendThread.Join();
+                }
+                if (receiveThread != null && receiveThread.IsAlive)
+                {
+                    receiveThread.Join();
+                }
+            } catch (Exception exception) {
+                Debug.Log("Failed to close serial connection. Exception: " + exception.Message);
+            }
 			return true;
 		}
 
@@ -139,6 +144,12 @@ namespace GeometrySynth.Control
 			return false;
 		}
 
+        //TODO: remove after testing:
+        public void EnqueueMessage(string message)
+        {
+            receivedQueue.Enqueue(message);
+        }
+
 		public bool Receive()
 		{
             if (receivedQueue.Count > 0)
@@ -146,10 +157,18 @@ namespace GeometrySynth.Control
 				string message;
                 receivedQueue.TryDequeue(out message);
                 Debug.Log("Received message: " + message);
-                var moduleData = JsonUtility.FromJson<ModuleData>(message);
+                ModuleData moduleData;
+                try
+                {
+                    moduleData = JsonUtility.FromJson<ModuleData>(message);
+				} catch (Exception exception) {
+					Debug.Log("SerialDataProvider.Receive: Failed to parse JSON message. Exception: " + exception.Message);
+					return false;
+				}
                 Debug.Log("Received module data from address " + moduleData.address.ToString() + ".");
                 if (ModuleCommandRecieved != null) ModuleCommandRecieved(moduleData);
                 return true;
+                
 			}
 			return false;
 		}
@@ -166,6 +185,7 @@ namespace GeometrySynth.Control
         public bool SendModuleData(ModuleData data)
         {
             string message = ModuleDataToJSON(data) + EOL;
+            Debug.Log("Sending message: " + message);
             IntPtr ptr = Marshal.StringToHGlobalAnsi(message);
 			serial_send(ptr);
             Marshal.FreeHGlobal(ptr);
@@ -223,14 +243,17 @@ namespace GeometrySynth.Control
         {
             while (isRunning)
             {
-				if (sendQueue.Count > 0)
-				{
-					string messageToSend;
-					sendQueue.TryDequeue(out messageToSend);
-                    IntPtr ptr = Marshal.StringToHGlobalAnsi(messageToSend);
-					serial_send(ptr);
-                    Marshal.FreeHGlobal(ptr);
-				}
+                if (serial_is_open())
+                {
+                    if (sendQueue.Count > 0)
+                    {
+                        string messageToSend;
+                        sendQueue.TryDequeue(out messageToSend);
+                        IntPtr ptr = Marshal.StringToHGlobalAnsi(messageToSend);
+                        serial_send(ptr);
+                        Marshal.FreeHGlobal(ptr);
+                    }
+                }
                 Thread.Sleep(10);
             }
         }
@@ -240,22 +263,21 @@ namespace GeometrySynth.Control
             isRunning = true;
             while(isRunning)
             {
-				if (serial_receive())
-				{
-                    int messageCount = serial_available_messages_count();
-                    if (messageCount > 0)
+                if (serial_is_open())
+                {
+                    if (serial_receive())
                     {
-                        Debug.Log(messageCount.ToString() + " messages available.");
-                        IntPtr ptr = serial_get_next_message();
-                        string receivedMessage = Marshal.PtrToStringAnsi(ptr);
-                        if (receivedMessage == null)
+                        int messageCount = serial_available_messages_count();
+                        if (messageCount > 0)
                         {
-                            Debug.Log("Received null message.");
-                        } else {
-                            Debug.Log("Received message: " + receivedMessage);
-                            if (receivedMessage.Contains("{") && receivedMessage.Contains("}"))
+                            IntPtr ptr = serial_get_next_message();
+                            string receivedMessage = Marshal.PtrToStringAnsi(ptr);
+                            if (receivedMessage != null)
                             {
-                                receivedQueue.Enqueue(receivedMessage);
+                                if (receivedMessage.Contains("{") && receivedMessage.Contains("}"))
+                                {
+                                    receivedQueue.Enqueue(receivedMessage);
+                                }
                             }
                         }
                     }

@@ -9,29 +9,19 @@ namespace GeometrySynth.FunctionModules
 	{
 		public override bool SyncValues(int[] moduleValues)
 		{
-			if (moduleValues.Length == 3)
-			{
-                values = moduleValues;
-                x = MapValue(values[0]);
-                y = MapValue(values[1]);
-                z = MapValue(values[2]);
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+			base.SyncValues(moduleValues);
+            x = MapValue(values[0]);
+            y = MapValue(values[1]);
+            z = MapValue(values[2]);
+			return true;
 		}
 		public override bool Operate(Transformable transformable)
 		{
 			transformable.Scale(x, y, z);
 			return true;
 		}
-		public Scaler(int moduleAddress)
+        public Scaler(int moduleAddress) : base(moduleAddress, ModuleFunction.SCALE)
 		{
-			address = moduleAddress;
-            function = ModuleFunction.SCALE;
-            values = new int[] { 0, 0, 0 };
 			x = 1.0f;
 			y = 1.0f;
 			z = 1.0f;

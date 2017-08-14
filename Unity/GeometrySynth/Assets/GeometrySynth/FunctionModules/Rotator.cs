@@ -9,29 +9,19 @@ namespace GeometrySynth.FunctionModules
 	{
 		public override bool SyncValues(int[] moduleValues)
 		{
-			if (moduleValues.Length == 3)
-			{
-                values = moduleValues;
-                x = MapValue(moduleValues[0]);
-                y = MapValue(moduleValues[1]);
-                z = MapValue(moduleValues[2]);
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+            base.SyncValues(moduleValues);
+            x = MapValue(values[0]);
+            y = MapValue(values[1]);
+            z = MapValue(values[2]);
+			return true;
 		}
 		public override bool Operate(Transformable transformable)
 		{
 			transformable.Rotate(x, y, z);
 			return true;
 		}
-		public Rotator(int moduleAddress)
+		public Rotator(int moduleAddress) : base(moduleAddress, ModuleFunction.ROTATE)
 		{
-			address = moduleAddress;
-            function = ModuleFunction.ROTATE;
-            values = new int[] { 0, 0, 0 };
 			x = 0.0f;
 			y = 0.0f;
 			z = 0.0f;
