@@ -12,6 +12,14 @@ namespace GeometrySynth.Control
         public ShapeData defaultShape;
         public List<ShapeData> shapes;
 
+        public Shape GetShape(int shapeIndex)
+        {
+            if (shapeIndex < shapes.Count)
+            {
+                return shapes[shapeIndex].shape;
+            }
+            return defaultShape.shape;
+        }
         public bool OnShapeModuleCreated(Connectable module)
         {
             if (module.Function == ModuleFunction.SHAPE)

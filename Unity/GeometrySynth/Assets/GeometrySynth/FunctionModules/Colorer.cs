@@ -2,6 +2,7 @@
 
 using GeometrySynth.Constants;
 using GeometrySynth.Interfaces;
+using GeometrySynth.Control;
 
 namespace GeometrySynth.FunctionModules
 {
@@ -10,9 +11,9 @@ namespace GeometrySynth.FunctionModules
 		public override bool SyncValues(int[] moduleValues)
 		{
             base.SyncValues(moduleValues);
-            r = MapValue(values[0]);
-            g = MapValue(values[1]);
-            b = MapValue(values[2]);
+            r = InputValueMapper.MapColor(values[0]);
+            g = InputValueMapper.MapColor(values[1]);
+            b = InputValueMapper.MapColor(values[2]);
 			return true;
 		}
 		public override bool Step(float time)
@@ -21,7 +22,7 @@ namespace GeometrySynth.FunctionModules
 		}
 		public override bool Operate(Transformable transformable)
 		{
-			transformable.Color(r, g, b);
+			transformable.ApplyColor(r, g, b);
 			return true;
 		}
         public Colorer(int moduleAddress) : base(moduleAddress, ModuleFunction.COLOR)
@@ -29,11 +30,6 @@ namespace GeometrySynth.FunctionModules
 			r = 1.0f;
 			g = 1.0f;
 			b = 1.0f;
-		}
-		private float MapValue(int rawValue)
-		{
-			float mappedValue = (float)rawValue / 255.0f;
-			return mappedValue;
 		}
 		float r; //values[0]
 		float g; //values[1]

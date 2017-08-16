@@ -18,12 +18,16 @@ namespace GeometrySynth.Tests
             }
             if (Input.GetKeyUp(KeyCode.Alpha2))
             {
-                SendModuleData(waveModule);
+                SendModuleData(arrayModule);
             }
             if (Input.GetKeyUp(KeyCode.Alpha3))
             {
-                SendModuleData(translateModule);
+                SendModuleData(waveModule);
             }
+			if (Input.GetKeyUp(KeyCode.Alpha4))
+			{
+                SendModuleData(rotateModule);
+			}
         }
         public bool OnModuleCreated(Connectable connectable)
         {
@@ -47,9 +51,9 @@ namespace GeometrySynth.Tests
         }
         public void SendModuleData(ModuleData data)
         {
-			serialDataProvider.SendModuleData(data);
-			//var message = JsonUtility.ToJson(data);
-			//serialDataProvider.EnqueueMessage(message);
+			//serialDataProvider.SendModuleData(data);
+			var message = JsonUtility.ToJson(data);
+			serialDataProvider.EnqueueMessage(message);
         }
         private void CreateModuleData()
         {
@@ -59,7 +63,7 @@ namespace GeometrySynth.Tests
                 command = Command.UPDATE,
                 function = ModuleFunction.SHAPE,
                 values = new int[] { 1, 200, 0, 0 },
-                connectedModuleAddress = 12
+                connectedModuleAddress = 14
             };
             modules.Add(shapeModule);
 			waveModule = new ModuleData()
@@ -67,8 +71,8 @@ namespace GeometrySynth.Tests
 				address = 11,
                 command = Command.UPDATE,
                 function = ModuleFunction.SINE_WAVE,
-				values = new int[] { 127, 127, 0, 0 },
-				connectedModuleAddress = 0
+				values = new int[] { 255, 20, 0, 0 },
+				connectedModuleAddress = 15
 			};
             modules.Add(waveModule);
 			translateModule = new ModuleData()
@@ -77,7 +81,7 @@ namespace GeometrySynth.Tests
                 command = Command.UPDATE,
                 function = ModuleFunction.TRANSLATE,
 				values = new int[] { 255, 0, 0, 0 },
-				connectedModuleAddress = 11
+				connectedModuleAddress = 15
 			};
             modules.Add(translateModule);
 			colorModule = new ModuleData()
@@ -89,12 +93,32 @@ namespace GeometrySynth.Tests
 				connectedModuleAddress = 0
 			};
             modules.Add(colorModule);
+			arrayModule = new ModuleData()
+			{
+				address = 14,
+				command = Command.UPDATE,
+                function = ModuleFunction.ARRAY,
+				values = new int[] { 60, 60, 60, 0 },
+				connectedModuleAddress = 11
+			};
+			modules.Add(arrayModule);
+			rotateModule = new ModuleData()
+			{
+				address = 15,
+				command = Command.UPDATE,
+                function = ModuleFunction.ROTATE,
+				values = new int[] { 100, 0, 255, 0 },
+				connectedModuleAddress = 0
+			};
+			modules.Add(translateModule);
         }
         private SerialDataProvider serialDataProvider;
         private List<ModuleData> modules;
         private ModuleData shapeModule;
         private ModuleData waveModule;
         private ModuleData translateModule;
+        private ModuleData rotateModule;
         private ModuleData colorModule;
+        private ModuleData arrayModule;
     }
 }

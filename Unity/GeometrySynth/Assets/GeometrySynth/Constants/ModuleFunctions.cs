@@ -5,6 +5,7 @@
         PASSTHROUGH = 2,
         //Creation:
         SHAPE = 3,
+        ARRAY = 4,
         //Transformation:
         TRANSLATE = 10,
         ROTATE = 11,

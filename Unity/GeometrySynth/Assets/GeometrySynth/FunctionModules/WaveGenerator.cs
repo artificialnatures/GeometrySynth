@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 
 using GeometrySynth.Constants;
 using GeometrySynth.Interfaces;
+using GeometrySynth.Control;
 
 namespace GeometrySynth.FunctionModules
 {
@@ -11,9 +11,9 @@ namespace GeometrySynth.FunctionModules
 		public override bool SyncValues(int[] moduleValues)
 		{
             base.SyncValues(moduleValues);
-            amplitude = MapValue(values[0]);
-            frequency = MapValue(values[1]);
-            offset = MapValue(values[2]);
+            amplitude = InputValueMapper.MapAmplitude(values[0]);
+            frequency = InputValueMapper.MapFrequency(values[1]);
+            offset = InputValueMapper.MapOffset(values[2]);
 			return true;
 		}
 		public override bool Step(float time)

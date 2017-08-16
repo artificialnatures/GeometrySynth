@@ -1,5 +1,6 @@
 ﻿using GeometrySynth.Constants;
 using GeometrySynth.Interfaces;
+using GeometrySynth.Control;
 
 namespace GeometrySynth.FunctionModules
 {
@@ -16,40 +17,21 @@ namespace GeometrySynth.FunctionModules
         public override bool SyncValues(int[] moduleValues)
         {
             base.SyncValues(moduleValues);
-            shape = MapShape(values[0]);
-            isActive = MapActive(values[1]);
+            shape = (Shape)InputValueMapper.MapIntegerChoice(values[0], 0, 9);
+            isActive = InputValueMapper.MapBoolean(values[1]);
             return true;
         }
         public override bool Operate(Transformable transformable)
         {
-            if (transformable.IsActive != isActive)
-            {
-                transformable.IsActive = isActive;
-            }
-            if (transformable.Shape != shape)
-            {
-                transformable.Shape = shape;
-                return true;
-            }
-            return false;
+            transformable.Shape = shape;
+            transformable.IsActive = isActive;
+            transformable.IsArrayed = false;
+            return true;
         }
         public Creator(int moduleAddress) : base(moduleAddress, ModuleFunction.SHAPE)
         {
             shape = Shape.CUBE;
             isActive = true;
-        }
-        private Shape MapShape(int inputValue)
-        {
-            //TODO: map a variety of shapes to input values from 0 to 255
-            return Shape.CUBE;
-        }
-        private bool MapActive(int inputValue)
-        {
-            if (inputValue > 128)
-            {
-                return true;
-            }
-            return false;
         }
         private Shape shape;
         private bool isActive;

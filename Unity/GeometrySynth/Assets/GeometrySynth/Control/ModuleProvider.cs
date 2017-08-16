@@ -14,6 +14,8 @@ namespace GeometrySynth.Control
             {
                 case ModuleFunction.SHAPE:
                     return new Creator(moduleAddress);
+                case ModuleFunction.ARRAY:
+                    return new ArrayCreator(moduleAddress);
                 case ModuleFunction.TRANSLATE:
                     return new Translator(moduleAddress);
                 case ModuleFunction.ROTATE:

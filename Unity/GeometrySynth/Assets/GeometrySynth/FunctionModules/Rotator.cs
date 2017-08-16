@@ -2,6 +2,7 @@
 
 using GeometrySynth.Constants;
 using GeometrySynth.Interfaces;
+using GeometrySynth.Control;
 
 namespace GeometrySynth.FunctionModules
 {
@@ -10,9 +11,9 @@ namespace GeometrySynth.FunctionModules
 		public override bool SyncValues(int[] moduleValues)
 		{
             base.SyncValues(moduleValues);
-            x = MapValue(values[0]);
-            y = MapValue(values[1]);
-            z = MapValue(values[2]);
+            x = InputValueMapper.MapRotation(values[0]);
+            y = InputValueMapper.MapRotation(values[1]);
+            z = InputValueMapper.MapRotation(values[2]);
 			return true;
 		}
 		public override bool Operate(Transformable transformable)
@@ -25,11 +26,6 @@ namespace GeometrySynth.FunctionModules
 			x = 0.0f;
 			y = 0.0f;
 			z = 0.0f;
-		}
-		private float MapValue(int rawValue)
-		{
-            float mappedValue = (float)rawValue * (360.0f / 255.0f);
-			return mappedValue;
 		}
 		float x; //values[0]
 		float y; //values[1]

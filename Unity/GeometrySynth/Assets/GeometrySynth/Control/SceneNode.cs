@@ -31,8 +31,9 @@ namespace GeometrySynth.Control
         public bool IsArrayed
         {
             get { return isArrayed; }
+            set { isArrayed = value; }
         }
-        public bool Array(int countX, int countY, int countZ, float spacingX, float spacingY, float spacingZ)
+        public bool Array(int countX, int countY, int countZ)
         {
             bool returnValue = false;
             if (countX != arraySize[0])
@@ -50,45 +51,81 @@ namespace GeometrySynth.Control
 				arraySize[2] = countZ;
 				returnValue = true;
 			}
+            if (returnValue)
+            {
+                foreach (var child in children)
+                {
+                    Destroy(child.gameObject);
+                }
+                children.Clear();
+                arraySpacing = new float[] { scale.x, scale.y, scale.z };
+                var startX = -((arraySize[0] * arraySpacing[0]) / 2.0f);
+                var startY = -((arraySize[1] * arraySpacing[1]) / 2.0f);
+                var startZ = -((arraySize[2] * arraySpacing[2]) / 2.0f);
+                var startingPosition = Vector3.zero;
+                for (int x = 0; x < countX; x++)
+                {
+                    for (int y = 0; y < countY; y++)
+                    {
+                        for (int z = 0; z < countZ; z++)
+                        {
+                            startingPosition = new Vector3(
+                                startX + (x * arraySpacing[0]),
+                                startY + (y * arraySpacing[1]),
+                                startZ + (z * arraySpacing[2])
+                            );
+                            var shapeObject = Instantiate(prefab, startingPosition, Quaternion.identity) as GameObject;
+                            shapeObject.transform.SetParent(transform);
+                            var shapeNode = shapeObject.AddComponent<ShapeNode>();
+                            shapeNode.StartingPosition = startingPosition;
+                            children.Add(shapeNode);
+                        }
+                    }
+                }
+            }
+            isArrayed = true;
+            scalar = 1.0f;
             return returnValue;
         }
 		public bool Translate(float x, float y, float z)
 		{
-            var translation = new Vector3(x * scalar, y * scalar, z * scalar);
-            foreach (Transform child in transform)
+            translation = new Vector3(x * scalar, y * scalar, z * scalar);
+            foreach (var child in children)
             {
-                child.localPosition = translation;
+                child.Translate(translation);
             }
+            scalar = 1.0f;
 			return true;
 		}
 		public bool Rotate(float x, float y, float z)
 		{
-            //TODO: handle array, handle mapping, handle offset/scalar
-            var rotation = new Vector3(x * scalar, y * scalar, z * scalar);
-            foreach (Transform child in transform)
+            rotation = Quaternion.Euler(x * scalar, y * scalar, z * scalar);
+            foreach (var child in children)
             {
-                child.localEulerAngles = rotation;
+                child.Rotate(rotation);
             }
+            scalar = 1.0f;
             return true;
 		}
 		public bool Scale(float x, float y, float z)
 		{
-            //TODO: handle array, handle mapping, handle offset/scalar
-            var scale = new Vector3(x * Mathf.Abs(scalar), y * Mathf.Abs(scalar), z * Mathf.Abs(scalar));
-            foreach (Transform child in transform)
+            scale = new Vector3(x * scalar, y * scalar, z * scalar);
+            foreach (var child in children)
             {
-                child.localScale = scale;
+                child.Scale(scale);
             }
+            scalar = 1.0f;
 			return true;
 		}
-        public bool Color(float r, float g, float b)
+        public bool ApplyColor(float r, float g, float b)
         {
-            var colorScalar = (scalar + 1.0f) * 0.5f;
-            var color = new Color(r * colorScalar, g * colorScalar, b * colorScalar);
-            foreach (Transform child in transform)
+            var colorScalar = Mathf.Clamp(scalar, 0.0f, 1.0f);
+            color = new Color(r * colorScalar, g * colorScalar, b * colorScalar);
+            foreach (var child in children)
             {
-                child.GetComponent<Renderer>().material.color = color;
+                child.ApplyColor(color);
             }
+            scalar = 1.0f;
             return true;
         }
         public void Initialize(Creator shapeModule, GameObject shapePrefab)
@@ -101,7 +138,14 @@ namespace GeometrySynth.Control
             isArrayed = false;
             arraySize = new int[] { 1, 1, 1 };
             arraySpacing = new float[] { 1.0f, 1.0f, 1.0f };
+            translation = Vector3.zero;
+            rotation = Quaternion.identity;
+            scale = Vector3.one;
+            color = Color.white;
             var initialShape = Instantiate(prefab, Vector3.zero, Quaternion.identity) as GameObject;
+            var shapeNode = initialShape.AddComponent<ShapeNode>();
+            children = new List<ShapeNode>();
+            children.Add(shapeNode);
             initialShape.transform.SetParent(transform);
 		}
         private Creator module;
@@ -112,6 +156,10 @@ namespace GeometrySynth.Control
         private bool isArrayed;
         private int[] arraySize;
         private float[] arraySpacing;
-        private Material material;
+        private Vector3 translation;
+        private Quaternion rotation;
+        private Vector3 scale;
+        private Color color;
+        private List<ShapeNode> children;
     }
 }

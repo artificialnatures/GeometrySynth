@@ -111,15 +111,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\GeometrySynth\Constants\Command.cs" />
-    <Compile Include="Assets\GeometrySynth\Constants\Shapes.cs" />
     <Compile Include="Assets\GeometrySynth\Constants\Directionality.cs" />
     <Compile Include="Assets\GeometrySynth\Constants\ModuleFunctions.cs" />
     <Compile Include="Assets\GeometrySynth\Constants\ModuleType.cs" />
     <Compile Include="Assets\GeometrySynth\Constants\ReservedAddresses.cs" />
+    <Compile Include="Assets\GeometrySynth\Constants\Shapes.cs" />
     <Compile Include="Assets\GeometrySynth\Constants\ValueMapping.cs" />
     <Compile Include="Assets\GeometrySynth\Control\Hub.cs" />
     <Compile Include="Assets\GeometrySynth\Control\HubController.cs" />
     <Compile Include="Assets\GeometrySynth\Control\I2CDataProvider.cs" />
+    <Compile Include="Assets\GeometrySynth\Control\InputValueMapper.cs" />
     <Compile Include="Assets\GeometrySynth\Control\MacSerialDataProvider.cs" />
     <Compile Include="Assets\GeometrySynth\Control\ModuleLink.cs" />
     <Compile Include="Assets\GeometrySynth\Control\ModuleProvider.cs" />
@@ -127,9 +128,11 @@
     <Compile Include="Assets\GeometrySynth\Control\SceneNode.cs" />
     <Compile Include="Assets\GeometrySynth\Control\SerialDataProvider.cs" />
     <Compile Include="Assets\GeometrySynth\Control\ShapeData.cs" />
+    <Compile Include="Assets\GeometrySynth\Control\ShapeNode.cs" />
     <Compile Include="Assets\GeometrySynth\Control\SPIDataProvider.cs" />
     <Compile Include="Assets\GeometrySynth\Control\SynthScene.cs" />
     <Compile Include="Assets\GeometrySynth\Control\WindowsSerialDataProvider.cs" />
+    <Compile Include="Assets\GeometrySynth\FunctionModules\ArrayCreator.cs" />
     <Compile Include="Assets\GeometrySynth\FunctionModules\Colorer.cs" />
     <Compile Include="Assets\GeometrySynth\FunctionModules\Creator.cs" />
     <Compile Include="Assets\GeometrySynth\FunctionModules\FunctionModule.cs" />

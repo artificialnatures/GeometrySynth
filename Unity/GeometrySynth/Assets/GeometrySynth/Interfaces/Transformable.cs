@@ -8,11 +8,11 @@ namespace GeometrySynth.Interfaces
         bool IsActive { get; set; }
         Shape Shape { get; set; }
         float Scalar { get; set; }
-        bool IsArrayed { get; }
-        bool Array(int countX, int countY, int countZ, float spacingX, float spacingY, float spacingZ);
+        bool IsArrayed { get; set; }
+        bool Array(int countX, int countY, int countZ);
         bool Translate(float x, float y, float z);
         bool Rotate(float x, float y, float z);
         bool Scale(float x, float y, float z);
-        bool Color(float r, float g, float b);
+        bool ApplyColor(float r, float g, float b);
     }
 }

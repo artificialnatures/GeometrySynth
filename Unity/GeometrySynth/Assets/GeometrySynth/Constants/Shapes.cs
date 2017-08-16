@@ -3,11 +3,10 @@
     public enum Shape
     {
         NONE = 0,
-        DEFAULT = 1,
-        //Primitives:
-        CUBE = 10,
-        CYLINDER = 11,
-        SPHERE = 12,
-        CONE = 13
+        TETRAHEDRON = 1,
+        CUBE = 2,
+        OCTAHEDRON = 3,
+        DODECAHEDRON = 4,
+        ICOSAHEDRON = 5
     }
 }
