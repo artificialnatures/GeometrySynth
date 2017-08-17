@@ -21,7 +21,18 @@ namespace GeometrySynth.Control
         public Shape Shape
 		{
 			get { return shape; }
-			set { shape = value; }
+			set 
+            {
+                if (value != shape)
+                {
+                    Debug.Log("Setting shape...");
+                    shape = value;
+                    prefab = controller.GetPrefabForShape(shape);
+                    DestroyChildren();
+                    CreateChild(Vector3.zero);
+                    arraySize = new int[] { 1, 1, 1 };
+                }
+            }
 		}
 		public float Scalar
 		{
@@ -53,32 +64,24 @@ namespace GeometrySynth.Control
 			}
             if (returnValue)
             {
-                foreach (var child in children)
-                {
-                    Destroy(child.gameObject);
-                }
-                children.Clear();
+                DestroyChildren();
                 arraySpacing = new float[] { scale.x, scale.y, scale.z };
                 var startX = -((arraySize[0] * arraySpacing[0]) / 2.0f);
                 var startY = -((arraySize[1] * arraySpacing[1]) / 2.0f);
                 var startZ = -((arraySize[2] * arraySpacing[2]) / 2.0f);
-                var startingPosition = Vector3.zero;
+                var startingTranslation = Vector3.zero;
                 for (int x = 0; x < countX; x++)
                 {
                     for (int y = 0; y < countY; y++)
                     {
                         for (int z = 0; z < countZ; z++)
                         {
-                            startingPosition = new Vector3(
+                            startingTranslation = new Vector3(
                                 startX + (x * arraySpacing[0]),
                                 startY + (y * arraySpacing[1]),
                                 startZ + (z * arraySpacing[2])
                             );
-                            var shapeObject = Instantiate(prefab, startingPosition, Quaternion.identity) as GameObject;
-                            shapeObject.transform.SetParent(transform);
-                            var shapeNode = shapeObject.AddComponent<ShapeNode>();
-                            shapeNode.StartingPosition = startingPosition;
-                            children.Add(shapeNode);
+                            CreateChild(startingTranslation);
                         }
                     }
                 }
@@ -143,8 +146,9 @@ namespace GeometrySynth.Control
             scalar = 1.0f;
             return true;
         }
-        public void Initialize(Creator shapeModule, GameObject shapePrefab)
+        public void Initialize(SceneController sceneController, Creator shapeModule, GameObject shapePrefab)
 		{
+            controller = sceneController;
             module = shapeModule;
             prefab = shapePrefab;
             isActive = true;
@@ -157,12 +161,28 @@ namespace GeometrySynth.Control
             rotation = Quaternion.identity;
             scale = Vector3.one;
             color = Color.white;
-            var initialShape = Instantiate(prefab, Vector3.zero, Quaternion.identity) as GameObject;
-            var shapeNode = initialShape.AddComponent<ShapeNode>();
             children = new List<ShapeNode>();
-            children.Add(shapeNode);
-            initialShape.transform.SetParent(transform);
+            CreateChild(Vector3.zero);
 		}
+
+        private void DestroyChildren()
+        {
+			foreach (var child in children)
+			{
+				Destroy(child.gameObject);
+			}
+			children.Clear();
+        }
+
+        private void CreateChild(Vector3 startingTranslation)
+        {
+            var childShape = Instantiate(prefab, startingTranslation, Quaternion.identity) as GameObject;
+			var shapeNode = childShape.AddComponent<ShapeNode>();
+			children.Add(shapeNode);
+			childShape.transform.SetParent(transform);
+        }
+
+        private SceneController controller;
         private Creator module;
         private GameObject prefab;
         private bool isActive;

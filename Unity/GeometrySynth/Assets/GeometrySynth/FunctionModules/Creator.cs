@@ -17,7 +17,7 @@ namespace GeometrySynth.FunctionModules
         public override bool SyncValues(int[] moduleValues)
         {
             base.SyncValues(moduleValues);
-            shape = (Shape)InputValueMapper.MapIntegerChoice(values[0], 0, 9);
+            shape = (Shape)InputValueMapper.MapIntegerChoice(values[0], 0, 4);
             isActive = InputValueMapper.MapBoolean(values[1]);
             return true;
         }

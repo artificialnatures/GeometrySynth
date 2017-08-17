@@ -20,6 +20,15 @@ namespace GeometrySynth.Control
             }
             return defaultShape.shape;
         }
+        public GameObject GetPrefabForShape(Shape shape)
+		{
+            var matchingShape = shapes.DefaultIfEmpty(defaultShape).FirstOrDefault(s => s.shape == shape);
+            if (matchingShape.prefab != null)
+            {
+                return matchingShape.prefab;
+            }
+            return defaultShape.prefab;
+		}
         public bool OnShapeModuleCreated(Connectable module)
         {
             if (module.Function == ModuleFunction.SHAPE)
@@ -35,7 +44,7 @@ namespace GeometrySynth.Control
             var sceneObject = new GameObject("SceneNode");
             var shapePrefab = GetPrefabForShape(shapeModule.Shape);
             var sceneNode = sceneObject.AddComponent<SceneNode>();
-            sceneNode.Initialize(shapeModule, shapePrefab);
+            sceneNode.Initialize(this, shapeModule, shapePrefab);
             sceneNodes.Add(sceneNode);
             return sceneNode;
         }
@@ -55,15 +64,6 @@ namespace GeometrySynth.Control
         void Update()
         {
 
-        }
-        private GameObject GetPrefabForShape(Shape shape)
-        {
-            var shapeData = shapes.DefaultIfEmpty(new ShapeData()).FirstOrDefault(s => s.shape == shape);
-            if (shapeData.prefab != null)
-            {
-                return shapeData.prefab;
-            }
-            return null;
         }
         private List<SceneNode> sceneNodes;
     }

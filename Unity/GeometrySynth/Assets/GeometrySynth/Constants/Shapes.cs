@@ -2,11 +2,10 @@
 {
     public enum Shape
     {
-        NONE = 0,
-        TETRAHEDRON = 1,
-        CUBE = 2,
-        OCTAHEDRON = 3,
-        DODECAHEDRON = 4,
-        ICOSAHEDRON = 5
+        TETRAHEDRON = 0,
+        CUBE = 1,
+        OCTAHEDRON = 2,
+        DODECAHEDRON = 3,
+        ICOSAHEDRON = 4
     }
 }

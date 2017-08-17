@@ -87,11 +87,13 @@ namespace GeometrySynth.Control
 		}
         public static int MapIntegerChoice(int inputValue, int minValue, int maxValue)
         {
-            var inputDivisions = maxValue - minValue;
+            Debug.Log("MapIntegerChoice(" + inputValue.ToString() + ", " + minValue.ToString() + ", " + maxValue.ToString() + ")");
+            int mappedValue = 0;
+            var inputDivisions = maxValue - minValue + 1;
             var mappedInterval = MAX_INPUT_VALUE / inputDivisions;
             var intervalStart = 0;
             var intervalEnd = mappedInterval;
-            for (int i = 0; i < inputDivisions; i++)
+            for (int i = 0; i <= inputDivisions; i++)
             {
                 intervalStart = i * mappedInterval;
                 if (i < INPUT_INTERVAL - 1)
@@ -102,10 +104,11 @@ namespace GeometrySynth.Control
                 }
                 if (inputValue >= intervalStart && inputValue < intervalEnd)
                 {
-                    return i;
+                    mappedValue = i;
                 }
             }
-            return 1;
+            Debug.Log("Mapped value = " + mappedValue.ToString());
+            return mappedValue;
         }
     }
 }

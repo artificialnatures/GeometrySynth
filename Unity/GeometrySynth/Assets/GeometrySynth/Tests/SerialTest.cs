@@ -1,4 +1,4 @@
-﻿﻿using UnityEngine;
+﻿﻿﻿using UnityEngine;
 
 using System.Collections.Generic;
 
@@ -62,7 +62,7 @@ namespace GeometrySynth.Tests
                 address = 10,
                 command = Command.UPDATE,
                 function = ModuleFunction.SHAPE,
-                values = new int[] { 1, 200, 0, 0 },
+                values = new int[] { 250, 200, 0, 0 },
                 connectedModuleAddress = 14
             };
             modules.Add(shapeModule);
@@ -98,7 +98,7 @@ namespace GeometrySynth.Tests
 				address = 14,
 				command = Command.UPDATE,
                 function = ModuleFunction.ARRAY,
-				values = new int[] { 60, 60, 60, 0 },
+				values = new int[] { 250, 250, 250, 0 },
 				connectedModuleAddress = 11
 			};
 			modules.Add(arrayModule);
@@ -110,7 +110,7 @@ namespace GeometrySynth.Tests
 				values = new int[] { 100, 0, 255, 0 },
 				connectedModuleAddress = 0
 			};
-			modules.Add(translateModule);
+			modules.Add(rotateModule);
         }
         private SerialDataProvider serialDataProvider;
         private List<ModuleData> modules;

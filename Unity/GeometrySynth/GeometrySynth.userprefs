@@ -1,8 +1,12 @@
 ﻿<Properties StartupConfiguration="{515A8009-0D4E-E524-41FF-F2E40126492A}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/GeometrySynth/Tests/SerialTest.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/GeometrySynth/Control/InputValueMapper.cs">
     <Files>
-      <File FileName="Assets/GeometrySynth/Control/SceneNode.cs" Line="47" Column="24" />
-      <File FileName="Assets/GeometrySynth/Tests/SerialTest.cs" Line="78" Column="4" />
+      <File FileName="Assets/GeometrySynth/Control/SceneController.cs" Line="25" Column="1" />
+      <File FileName="Assets/GeometrySynth/Control/SceneNode.cs" Line="164" Column="46" />
+      <File FileName="Assets/GeometrySynth/Tests/SerialTest.cs" Line="65" Column="41" />
+      <File FileName="Assets/GeometrySynth/FunctionModules/Creator.cs" Line="20" Column="77" />
+      <File FileName="Assets/GeometrySynth/Constants/Shapes.cs" Line="9" Column="24" />
+      <File FileName="Assets/GeometrySynth/Control/InputValueMapper.cs" Line="88" Column="56" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
