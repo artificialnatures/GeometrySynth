@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿﻿using UnityEngine;
 using System.Collections.Generic;
 
 using GeometrySynth.Constants;
@@ -90,9 +90,14 @@ namespace GeometrySynth.Control
 		public bool Translate(float x, float y, float z)
 		{
             translation = new Vector3(x * scalar, y * scalar, z * scalar);
-            foreach (var child in children)
+            if (isArrayed)
             {
-                child.Translate(translation);
+                foreach (var child in children)
+                {
+                    child.Translate(translation);
+                }
+            } else {
+                transform.position = translation;
             }
             scalar = 1.0f;
 			return true;
@@ -100,9 +105,14 @@ namespace GeometrySynth.Control
 		public bool Rotate(float x, float y, float z)
 		{
             rotation = Quaternion.Euler(x * scalar, y * scalar, z * scalar);
-            foreach (var child in children)
+            if (isArrayed)
             {
-                child.Rotate(rotation);
+                foreach (var child in children)
+                {
+                    child.Rotate(rotation);
+                }
+            } else {
+                transform.localRotation = rotation;
             }
             scalar = 1.0f;
             return true;
@@ -110,9 +120,14 @@ namespace GeometrySynth.Control
 		public bool Scale(float x, float y, float z)
 		{
             scale = new Vector3(x * scalar, y * scalar, z * scalar);
-            foreach (var child in children)
+            if (isArrayed)
             {
-                child.Scale(scale);
+                foreach (var child in children)
+                {
+                    child.Scale(scale);
+                }
+            } else {
+                transform.localScale = scale;
             }
             scalar = 1.0f;
 			return true;
