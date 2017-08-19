@@ -1,15 +1,10 @@
 ﻿<Properties StartupConfiguration="{515A8009-0D4E-E524-41FF-F2E40126492A}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/GeometrySynth/Tests/SerialTest.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/GeometrySynth/Control/Hub.cs">
     <Files>
       <File FileName="Assets/GeometrySynth/Control/SceneController.cs" Line="25" Column="1" />
-      <File FileName="Assets/GeometrySynth/Control/SceneNode.cs" Line="32" Column="47" />
-      <File FileName="Assets/GeometrySynth/Tests/SerialTest.cs" Line="17" Column="52" />
-      <File FileName="Assets/GeometrySynth/FunctionModules/Creator.cs" Line="22" Column="25" />
-      <File FileName="Assets/GeometrySynth/Constants/Shapes.cs" Line="9" Column="24" />
-      <File FileName="Assets/GeometrySynth/Control/InputValueMapper.cs" Line="22" Column="60" />
-      <File FileName="Assets/GeometrySynth/UI/ScreenControls.cs" Line="153" Column="41" />
-      <File FileName="Assets/GeometrySynth/UI/CameraController.cs" Line="20" Column="28" />
-      <File FileName="Assets/GeometrySynth/UI/LightController.cs" Line="16" Column="34" />
+      <File FileName="Assets/GeometrySynth/Control/SceneNode.cs" Line="69" Column="58" />
+      <File FileName="Assets/GeometrySynth/Control/Hub.cs" Line="180" Column="22" />
+      <File FileName="Assets/GeometrySynth/FunctionModules/FunctionModule.cs" Line="77" Column="57" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

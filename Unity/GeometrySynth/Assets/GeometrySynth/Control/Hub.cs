@@ -178,6 +178,11 @@ namespace GeometrySynth.Control
                             nextModule = nextModule.UpstreamConnections.FirstOrDefault();
                         }
                     }
+                    if (chain.Count == 1 && chain[0].Function == ModuleFunction.SHAPE)
+                    {
+                        var sceneNode = sceneController.GetSceneNode(chain[0]);
+                        sceneNode.Reset();
+                    }
                     moduleChains.Add(chain);
                 }
                 var debugMessage = moduleChains.Count.ToString() + " module chains:\n";

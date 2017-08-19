@@ -65,6 +65,8 @@ namespace GeometrySynth.Control
             if (returnValue)
             {
                 DestroyChildren();
+                transform.position = Vector3.zero;
+                transform.rotation = Quaternion.identity;
                 arraySpacing = new float[] { scale.x, scale.y, scale.z };
                 var startX = -((arraySize[0] * arraySpacing[0]) / 2.0f);
                 var startY = -((arraySize[1] * arraySpacing[1]) / 2.0f);
@@ -154,7 +156,16 @@ namespace GeometrySynth.Control
             children = new List<ShapeNode>();
             CreateChild(Vector3.zero);
 		}
-
+        public void Reset()
+        {
+            DestroyChildren();
+            transform.position = Vector3.zero;
+            transform.rotation = Quaternion.identity;
+            CreateChild(Vector3.zero);
+			arraySize = new int[] { 1, 1, 1 };
+			arraySpacing = new float[] { 1.0f, 1.0f, 1.0f };
+            isArrayed = false;
+        }
         private void DestroyChildren()
         {
 			foreach (var child in children)
