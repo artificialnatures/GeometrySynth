@@ -12,22 +12,25 @@ namespace GeometrySynth.Tests
     {
         public void HandleKeyboardInput()
         {
-            if (Input.GetKeyUp(KeyCode.Alpha1)) 
+            if (IsModifierKeyDown())
             {
-                SendModuleData(shapeModule);
+                if (Input.GetKeyUp(KeyCode.Alpha1))
+                {
+                    SendModuleData(shapeModule);
+                }
+                if (Input.GetKeyUp(KeyCode.Alpha2))
+                {
+                    SendModuleData(arrayModule);
+                }
+                if (Input.GetKeyUp(KeyCode.Alpha3))
+                {
+                    SendModuleData(waveModule);
+                }
+                if (Input.GetKeyUp(KeyCode.Alpha4))
+                {
+                    SendModuleData(rotateModule);
+                }
             }
-            if (Input.GetKeyUp(KeyCode.Alpha2))
-            {
-                SendModuleData(arrayModule);
-            }
-            if (Input.GetKeyUp(KeyCode.Alpha3))
-            {
-                SendModuleData(waveModule);
-            }
-			if (Input.GetKeyUp(KeyCode.Alpha4))
-			{
-                SendModuleData(rotateModule);
-			}
         }
         public bool OnModuleCreated(Connectable connectable)
         {
@@ -55,6 +58,19 @@ namespace GeometrySynth.Tests
 			var message = JsonUtility.ToJson(data);
 			serialDataProvider.EnqueueMessage(message);
         }
+		private bool IsModifierKeyDown()
+		{
+			if (
+				Input.GetKey(KeyCode.LeftCommand) ||
+				Input.GetKey(KeyCode.RightCommand) ||
+				Input.GetKey(KeyCode.LeftControl) ||
+				Input.GetKey(KeyCode.RightControl)
+			)
+			{
+				return true;
+			}
+			return false;
+		}
         private void CreateModuleData()
         {
             shapeModule = new ModuleData()
@@ -81,7 +97,7 @@ namespace GeometrySynth.Tests
                 command = Command.UPDATE,
                 function = ModuleFunction.TRANSLATE,
 				values = new int[] { 255, 0, 0, 0 },
-				connectedModuleAddress = 15
+				connectedModuleAddress = 11
 			};
             modules.Add(translateModule);
 			colorModule = new ModuleData()
@@ -98,7 +114,7 @@ namespace GeometrySynth.Tests
 				address = 14,
 				command = Command.UPDATE,
                 function = ModuleFunction.ARRAY,
-				values = new int[] { 250, 250, 250, 0 },
+				values = new int[] { 150, 150, 150, 0 },
 				connectedModuleAddress = 11
 			};
 			modules.Add(arrayModule);
@@ -107,7 +123,7 @@ namespace GeometrySynth.Tests
 				address = 15,
 				command = Command.UPDATE,
                 function = ModuleFunction.ROTATE,
-				values = new int[] { 100, 0, 255, 0 },
+				values = new int[] { 0, 0, 255, 0 },
 				connectedModuleAddress = 0
 			};
 			modules.Add(rotateModule);

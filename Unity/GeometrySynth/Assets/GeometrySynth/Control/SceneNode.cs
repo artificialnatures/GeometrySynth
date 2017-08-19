@@ -93,14 +93,9 @@ namespace GeometrySynth.Control
 		public bool Translate(float x, float y, float z)
 		{
             translation = new Vector3(x * scalar, y * scalar, z * scalar);
-            if (isArrayed)
+            foreach (var child in children)
             {
-                foreach (var child in children)
-                {
-                    child.Translate(translation);
-                }
-            } else {
-                transform.position = translation;
+                child.Translate(translation);
             }
             scalar = 1.0f;
 			return true;
@@ -115,7 +110,7 @@ namespace GeometrySynth.Control
                     child.Rotate(rotation);
                 }
             } else {
-                transform.localRotation = rotation;
+                transform.rotation = rotation;
             }
             scalar = 1.0f;
             return true;
@@ -123,14 +118,9 @@ namespace GeometrySynth.Control
 		public bool Scale(float x, float y, float z)
 		{
             scale = new Vector3(x * scalar, y * scalar, z * scalar);
-            if (isArrayed)
+            foreach (var child in children)
             {
-                foreach (var child in children)
-                {
-                    child.Scale(scale);
-                }
-            } else {
-                transform.localScale = scale;
+                child.Scale(scale);
             }
             scalar = 1.0f;
 			return true;

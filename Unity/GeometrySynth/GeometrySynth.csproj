@@ -148,6 +148,8 @@
     <Compile Include="Assets\GeometrySynth\Interfaces\ModuleRequest.cs" />
     <Compile Include="Assets\GeometrySynth\Interfaces\Transformable.cs" />
     <Compile Include="Assets\GeometrySynth\Tests\SerialTest.cs" />
+    <Compile Include="Assets\GeometrySynth\UI\CameraController.cs" />
+    <Compile Include="Assets\GeometrySynth\UI\LightController.cs" />
     <Compile Include="Assets\GeometrySynth\UI\ModulePanelController.cs" />
     <Compile Include="Assets\GeometrySynth\UI\ScreenControls.cs" />
     <Compile Include="Assets\GeometrySynth\UI\ValueControl.cs" />

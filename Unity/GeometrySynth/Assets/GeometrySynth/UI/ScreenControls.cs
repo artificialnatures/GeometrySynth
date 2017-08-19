@@ -134,13 +134,34 @@ namespace GeometrySynth.UI
         }
         private void ProcessKeyCommands()
         {
-            if (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt))
+            if (Input.GetKeyUp(KeyCode.Space))
             {
-                if (Input.GetKeyUp(KeyCode.V))
+                ToggleVisibility();
+            }
+            if (IsModifierKeyDown())
+            {
+                if (Input.GetKeyUp(KeyCode.F))
                 {
-                    ToggleVisibility();
+                    Screen.fullScreen = true;
                 }
             }
+            if (Input.GetKeyUp(KeyCode.Escape))
+            {
+                Screen.fullScreen = false;
+            }
+        }
+        private bool IsModifierKeyDown()
+        {
+            if (
+                Input.GetKey(KeyCode.LeftCommand) ||
+                Input.GetKey(KeyCode.RightCommand) ||
+                Input.GetKey(KeyCode.LeftControl) ||
+                Input.GetKey(KeyCode.RightControl)
+            )
+            {
+                return true;
+            }
+            return false;
         }
         private void ToggleVisibility()
         {
